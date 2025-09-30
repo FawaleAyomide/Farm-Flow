@@ -1,0 +1,146 @@
+.loginpage {
+  height: 100vh;
+  padding: 30px 20px 0 20px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+}
+.loginpage .head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+  /* margin-bottom: 35px; */
+}
+.loginpage .head h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 100%;
+  color: var(--green-500);
+}
+.loginpage .head p {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 100%;
+  letter-spacing: 0.25px;
+}
+label {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 100%;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.forget-pwd {
+  width: 100%;
+  text-align: end;
+  font-size: 14px;
+  text-decoration: none;
+  color: var(--black);
+  font-weight: 400;
+  line-height: 100%;
+  margin: -10px 0 15px 0;
+}
+.forget-pwd:hover {
+  color: var(--btn-hover);
+  transition: 0.2s all ease-in;
+}
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.auth-form input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 15px 4px 15px 15px;
+  border-radius: 10px;
+  border: 1px solid var(--green-700);
+}
+
+.new-user {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 30px;
+}
+.signup-link {
+  color: var(--green-500);
+  text-decoration: none;
+}
+.signup-link:hover {
+    color: var(--btn-hover);
+    transition: 0.2s all ease-in;
+}
+
+.dashboard {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.divider{
+    display: flex;
+    width: 100%;
+    gap: 40px;
+}
+.divider hr{
+    width: 60%;
+    height: .01px;
+    background-color: var(--black);
+    border: 1px solid var(--black);
+}
+
+.google-apple-login{
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+}
+.google-btn{
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    width: 128px;
+    font-size: 14px;
+    font-weight: 400;
+}
+.apple-btn{
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    justify-content: center;
+    width: 116px;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.err-msg{
+    margin-top: -10px;
+}
+.error {
+  color: red;
+  font-size: 0.9rem;
+  margin: 4px 0;
+}
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.password-wrapper{
+    position: relative;
+}
+.toggle-password{
+    position: absolute;
+    top: 40px;
+    right: 20px;
+    color: rgba(0, 0, 0, 0.603);
+    cursor: pointer;
+}
+

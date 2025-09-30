@@ -1,0 +1,5 @@
+@media (max-width: 445px) {
+  .username-wrapper {
+    flex-direction: column !important;
+  }
+}

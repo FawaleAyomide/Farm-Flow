@@ -1,6 +1,7 @@
-.loginpage {
+.loginpage,
+.auth-container {
   height: 100vh;
-  padding: 30px 20px 0 20px;
+  padding: 30px 20px 30px 20px;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -53,9 +54,9 @@ label {
   transition: 0.2s all ease-in;
 }
 .input-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 .auth-form input {
   padding: 10px;
@@ -67,17 +68,17 @@ label {
 }
 
 .new-user {
-    text-align: center;
-    font-size: 14px;
-    margin-top: 30px;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 30px;
 }
 .signup-link {
   color: var(--green-500);
   text-decoration: none;
 }
 .signup-link:hover {
-    color: var(--btn-hover);
-    transition: 0.2s all ease-in;
+  color: var(--btn-hover);
+  transition: 0.2s all ease-in;
 }
 
 .dashboard {
@@ -85,44 +86,44 @@ label {
   margin-top: 50px;
 }
 
-.divider{
-    display: flex;
-    width: 100%;
-    gap: 40px;
+.divider {
+  display: flex;
+  width: 100%;
+  gap: 40px;
 }
-.divider hr{
-    width: 60%;
-    height: .01px;
-    background-color: var(--black);
-    border: 1px solid var(--black);
-}
-
-.google-apple-login{
-    display: flex;
-    justify-content: center;
-    gap: 32px;
-}
-.google-btn{
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    justify-content: center;
-    width: 128px;
-    font-size: 14px;
-    font-weight: 400;
-}
-.apple-btn{
-    display: flex;
-    gap: 15px;
-    align-items: center;
-    justify-content: center;
-    width: 116px;
-    font-size: 14px;
-    font-weight: 400;
+.divider hr {
+  width: 60%;
+  height: 0.01px;
+  background-color: var(--black);
+  border: 1px solid var(--black);
 }
 
-.err-msg{
-    margin-top: -10px;
+.google-apple-login {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+}
+.google-btn {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  width: 128px;
+  font-size: 14px;
+  font-weight: 400;
+}
+.apple-btn {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  width: 116px;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.err-msg {
+  margin-top: -10px;
 }
 .error {
   color: red;
@@ -133,14 +134,125 @@ button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
-.password-wrapper{
-    position: relative;
+.password-wrapper {
+  position: relative;
 }
-.toggle-password{
-    position: absolute;
-    top: 40px;
-    right: 20px;
-    color: rgba(0, 0, 0, 0.603);
-    cursor: pointer;
+.toggle-password {
+  position: absolute;
+  top: 40px;
+  right: 20px;
+  color: rgba(0, 0, 0, 0.603);
+  cursor: pointer;
+}
+
+/* sign up */
+.auth-container .head {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+}
+.auth-container .head h1 {
+  margin: 0;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 100%;
+  color: var(--green-500);
+}
+.auth-container .head p {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 100%;
+  letter-spacing: 0.25px;
+}
+
+/* .brand {
+  color: #2e7d32;
+  font-weight: bold;
+  margin-bottom: 0;
+} */
+
+.subtitle {
+  margin-bottom: 1rem;
+}
+
+.name-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.username-wrapper {
+  display: flex;
+  gap: 25px;
+  width: 100%;
+}
+
+.auth-container .input-wrapper {
+  width: 100%;
+}
+
+button {
+  margin-top: 12px;
+  width: 100%;
+  padding: 10px;
+  background: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.password-wrapper {
+  position: relative;
+}
+
+.auth-container .toggle-password {
+  position: absolute;
+  top: 40px;
+  right: 20px;
+  color: rgba(0, 0, 0, 0.603);
+  cursor: pointer;
+}
+
+.social-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.social-buttons button {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.switch-auth {
+  margin-top: 10px;
+}
+
+.signin-link {
+  color: var(--green-500);
+  text-decoration: none;
+}
+.signin-link:hover {
+  color: var(--btn-hover);
+  transition: 0.2s all ease-in;
+}
+
+.terms {
+  font-size: 0.75rem;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.auth-container .bottom {
+  margin-top: 20px;
 }
 

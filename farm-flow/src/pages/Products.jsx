@@ -1,7 +1,7 @@
-// src/pages/Products.jsx
 import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
+import { useShop } from "../context/ShopContext";
 import "./Products.css";
 
 const Products = () => {
@@ -16,6 +16,8 @@ const Products = () => {
   const [hasMore, setHasMore] = useState(true);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("All");
+
+  const { favourites, toggleFavourite, addToCart, cart } = useShop();
 
   const fetchMoreProducts = () => {
     if (products.length >= 30) {
@@ -45,6 +47,23 @@ const Products = () => {
 
   return (
     <div className="products-page">
+      {/* Top Header with User + Basket + Notification */}
+      <div className="products-header">
+        <div className="user-info">
+          <img src="/user.jpg" alt="User" className="user-avatar" />
+          <div className="user-text">
+            <p className="welcome-text">Welcome</p>
+            <h3 className="user-name">John Doe</h3>
+          </div>
+        </div>
+        <div className="header-actions">
+          <Link to="/checkout" className="basket-btn">
+            🛒 {cart.length > 0 && <span className="cart-count">{cart.length}</span>}
+          </Link>
+          <button className="notification-btn">🔔</button>
+        </div>
+      </div>
+
       {/* Search bar */}
       <div className="search-bar">
         <input
@@ -69,7 +88,7 @@ const Products = () => {
         ))}
       </div>
 
-      {/* Products grid with infinite scroll */}
+      {/* Products grid */}
       <InfiniteScroll
         dataLength={filteredProducts.length}
         next={fetchMoreProducts}
@@ -78,19 +97,32 @@ const Products = () => {
         endMessage={<p className="end-message">You have seen all products 🎉</p>}
         className="products-grid"
       >
-        {filteredProducts.map((p) => (
-          <div key={p.id} className="product-card">
-            <img src={p.image} alt={p.name} className="product-image" />
-            <span className="product-category">{p.category}</span>
-            <h3 className="product-name">{p.name}</h3>
-            <p className="product-price">{p.price}</p>
+        {filteredProducts.map((p) => {
+          const isFav = favourites.find((f) => f.id === p.id);
+          return (
+            <div key={p.id} className="product-card">
+              <div className="image-wrapper">
+                <img src={p.image} alt={p.name} className="product-image" />
+                <button
+                  className={`fav-btn ${isFav ? "active" : ""}`}
+                  onClick={() => toggleFavourite(p)}
+                >
+                  {isFav ? "💚" : "🤍"}
+                </button>
+              </div>
+              <span className="product-category">{p.category}</span>
+              <h3 className="product-name">{p.name}</h3>
+              <p className="product-price">{p.price}</p>
 
-            <button className="add-to-cart">Add to Cart</button>
-            <Link to={`/product/${p.id}`} className="see-details">
-              See Details
-            </Link>
-          </div>
-        ))}
+              <button className="add-to-cart" onClick={() => addToCart(p)}>
+                Add to Cart
+              </button>
+              <Link to={`/product/${p.id}`} className="see-details">
+                See Details
+              </Link>
+            </div>
+          );
+        })}
       </InfiniteScroll>
     </div>
   );

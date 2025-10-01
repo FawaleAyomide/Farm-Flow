@@ -12,6 +12,7 @@ import VerifyEmailPage from "./Auth/VerifyEmailPage";
 import Dashboard from "./Auth/Dashboard";
 import SplashScreen from "./Auth/SplashScreen";
 import OnboardingScreen from "./Auth/OnboardingScreen";
+import SetPasswordPage from "./Auth/SetPasswordPage";
 
 export default function App() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/verify-email" element={<VerifyEmailPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/set-password" element={<SetPasswordPage />} />
           <Route path="*" element={<Navigate to="/splash" />} />
         </Routes>
       </Router>

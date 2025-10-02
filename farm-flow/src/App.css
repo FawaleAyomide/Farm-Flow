@@ -5,4 +5,13 @@
   .btn{
     @apply bg-green-500 text-lg font-bold w-25 h-7.5 rounded-sm
   }
+  .CapBtn{
+    @apply bg-green-500 w-40 rounded-sm m-auto
+  }
+  .select{
+    @apply bg-green-50 size-30 m-auto
+  }
+  .Select{
+    @apply bg-green-300  size-50 m-auto
+  }
 }

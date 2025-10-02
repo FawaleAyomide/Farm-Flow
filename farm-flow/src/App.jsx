@@ -12,12 +12,7 @@ import VerifyEmailPage from "./Auth/VerifyEmailPage";
 import Dashboard from "./Auth/Dashboard";
 import SplashScreen from "./Auth/SplashScreen";
 import OnboardingScreen from "./Auth/OnboardingScreen";
-import { ShopProvider } from "./context/ShopContext";
-import Products from "./pages/Products";
-import ProductDetail from "./pages/ProductDetail";
-import BottomNav from "./components/BottomNav";
-import Checkout from "./pages/Checkout";
-import Favourites from "./pages/Favourites";
+import SetPasswordPage from "./Auth/SetPasswordPage";
 
 export default function App() {
   return (
@@ -33,7 +28,8 @@ export default function App() {
           <Route path="/reset-password" element={<ResetPasswordPage />} />
           <Route path="/verify-email" element={<VerifyEmailPage />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          {/* <Route path="*" element={<Navigate to="/splash" />} /> */}
+          <Route path="/set-password" element={<SetPasswordPage />} />
+//           <Route path="*" element={<Navigate to="/splash" />} />
         </Routes>
       </Router>
     </AuthProvider>

@@ -18,7 +18,9 @@ function VerifyEmailPage() {
           value={code}
           onChange={(e) => setCode(e.target.value)}
         />
-        <button type="submit">Verify</button>
+        <button className="onboarding-btn" type="submit">
+          Verify
+        </button>
       </form>
     </div>
   );

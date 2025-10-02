@@ -1,0 +1,8 @@
+/* src/styles/Layout.css */
+.page-container {
+    min-height: 100vh;          /* full screen */
+    padding: 1rem;              /* spacing */
+    background: #f0fdf4;        /* soft green */
+    box-sizing: border-box;
+  }
+  

@@ -28,6 +28,7 @@ const slides = [
 
 function OnboardingScreen() {
   const [step, setStep] = useState(0);
+  const [direction, setDirection] = useState(1);
   const navigate = useNavigate();
 
   const next = () => {
@@ -38,15 +39,39 @@ function OnboardingScreen() {
     }
   };
 
+    const goToStep = (i) => {
+    if (i !== step) {
+      setDirection(i > step ? 1 : -1);
+      setStep(i);
+    }
+  };
+
+  const variants = {
+    enter: (dir) => ({
+      x: dir > 0 ? 300 : -300,
+      opacity: 0,
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+    },
+    exit: (dir) => ({
+      x: dir > 0 ? -300 : 300,
+      opacity: 0,
+    }),
+  };
+
   return (
     <div className="onboarding">
-      <AnimatePresence mode="wait">
+      <AnimatePresence custom={direction} mode="wait">
         <motion.div
           key={step}
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          exit={{ opacity: 0, x: -100 }}
-          transition={{ duration: 0.3 }}
+          custom={direction}
+          variants={variants}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ duration: 0.3, ease: "easeInOut" }}
           className="onboard-slide"
         >
           <img

@@ -8,6 +8,9 @@ import CapturePhoto from './Pages/CapturePhoto';
 import CameraCapture from './Pages/CameraCapture';
 import ProfilePicture from './Pages/ProfilePicture';
 import UsePicture from './Pages/UsePicture';
+import Customers from './Pages/Customers';
+import Customer from './Pages/Customer';
+
 
 
 function App() {
@@ -22,6 +25,8 @@ function App() {
     <CameraCapture />
     <ProfilePicture />
     <UsePicture />
+    <Customers />
+    <Customer />
     </>
   )
 }

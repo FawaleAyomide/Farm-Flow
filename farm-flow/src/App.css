@@ -12,6 +12,9 @@
     @apply bg-green-50 size-30 m-auto
   }
   .Select{
-    @apply bg-green-300  size-50 m-auto
+    @apply bg-green-300  size-50 m-auto 
+  }
+  .customer-container{
+    @apply flex bg-green-700 pt-2 mt-2 w-80 m-auto  rounded-lg
   }
 }

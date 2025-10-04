@@ -25,7 +25,7 @@ function SignupPage() {
 
   const validate = () => {
     const newErrors = {};
-    const emailRegex = /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (!form.firstName) newErrors.firstName = "First name required";
     if (!form.lastName) newErrors.lastName = "Last name required";

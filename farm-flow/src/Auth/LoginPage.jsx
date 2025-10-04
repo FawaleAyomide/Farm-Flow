@@ -39,7 +39,7 @@ const LoginPage = () => {
       await login(email, password);
       navigate("/home", { replace: true });
     } catch (err) {
-      setErrors({ form: err.message || "Login failed" });
+      setErrors({ form: err.message || "Login Successful" });
     } finally {
       setLoading(false);
     }

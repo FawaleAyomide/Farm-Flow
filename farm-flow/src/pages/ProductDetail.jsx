@@ -2,6 +2,8 @@
 import { useParams, Link } from "react-router-dom";
 import "./ProductDetail.css";
 
+import okra from "../Images/okra.svg";
+
 const ProductDetail = () => {
   const { id } = useParams();
 
@@ -16,7 +18,7 @@ const ProductDetail = () => {
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     location: "Kaduna, Nigeria",
     farmer: { name: "Abubakar Usman", avatar: "/farmer.jpg" },
-    image: "/okra.jpg",
+    image: okra,
   };
 
   return (
@@ -31,7 +33,9 @@ const ProductDetail = () => {
       <span className="detail-category">{product.category}</span>
       <h2 className="detail-name">{product.name}</h2>
       <p className="detail-price">{product.price}</p>
-      <p className={`detail-stock ${product.inStock ? "in-stock" : "out-stock"}`}>
+      <p
+        className={`detail-stock ${product.inStock ? "in-stock" : "out-stock"}`}
+      >
         {product.inStock ? "In Stock" : "Out of Stock"}
       </p>
       <div className="quantity-selector">
@@ -46,9 +50,15 @@ const ProductDetail = () => {
       <p className="detail-location">{product.location}</p>
       <h3 className="section-title">Farmer</h3>
       <div className="farmer-info">
-        <img src={product.farmer.avatar} alt={product.farmer.name} className="farmer-avatar" />
+        <img
+          src={product.farmer.avatar}
+          alt={product.farmer.name}
+          className="farmer-avatar"
+        />
         <span className="farmer-name">{product.farmer.name}</span>
-        <Link to="/" className="farmer-link">View Profile</Link>
+        <Link to="/" className="farmer-link">
+          View Profile
+        </Link>
       </div>
       <Link to="/" className="back-button">← Back to Products</Link>
     </div>

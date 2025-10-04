@@ -2,6 +2,17 @@ import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { Link } from "react-router-dom";
 import { useShop } from "../context/ShopContext";
+import okra from "../Images/okra.svg";
+import rice from "../Images/rice.svg";
+import onions from "../Images/onions.svg";
+import tomatoes from "../Images/tomatoes.jpeg";
+import userAvatar from "../Images/userAvatar.svg";
+import { RiNotification2Line } from "react-icons/ri";
+import { RiSearchLine } from "react-icons/ri";
+import { RiFilter3Line } from "react-icons/ri";
+import { RiHeart3Line } from "react-icons/ri";
+import { RiHeart3Fill } from "react-icons/ri";
+import BottomNav from "../components/BottomNav";
 import "./Products.css";
 
 const Products = () => {

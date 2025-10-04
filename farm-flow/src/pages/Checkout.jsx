@@ -9,7 +9,8 @@ const Checkout = () => {
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
-    <div className="checkout-page">
+  <div className="checkout-page">
+    <div className="checkout-container">
       <h2 className="checkout-title">Checkout</h2>
 
       {/* Cart Summary */}
@@ -96,7 +97,8 @@ const Checkout = () => {
 
       <Link to="/" className="back-to-shop">← Back to Shop</Link>
     </div>
-  );
+  </div>
+);
 };
 
 export default Checkout;

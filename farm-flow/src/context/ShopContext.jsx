@@ -1,16 +1,25 @@
 import React, { createContext, useContext, useState } from "react";
 
+// Sample initial products (move this to context)
+const initialProducts = [
+  { id: 1, name: "Green Okra", price: "₦115 / KG", image: "/okra.jpg", category: "Vegetables" },
+  { id: 2, name: "Bag of Rice", price: "₦95,000 / Bag", image: "/rice.jpg", category: "Grains & Cereals" },
+  { id: 3, name: "Bag of Onions", price: "₦9,500 / Bag", image: "/onion.jpg", category: "Vegetables" },
+  { id: 4, name: "Tomatoes Basket", price: "₦15,000 / Basket", image: "/tomato.jpg", category: "Vegetables" },
+];
+
 const ShopContext = createContext();
 
 export const ShopProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
-  const [favourites, setFavourites] = useState([]);
+  const [favourites, setFavourites] = useState([]); // store array of ids
+  const [products, setProducts] = useState(initialProducts);
 
   // Add to Cart
   const addToCart = (product) => {
     setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.id === product.id);
-      if (existingItem) {
+      const exists = prevCart.find((item) => item.id === product.id);
+      if (exists) {
         return prevCart.map((item) =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
@@ -35,20 +44,29 @@ export const ShopProvider = ({ children }) => {
     setCart((prevCart) => prevCart.filter((item) => item.id !== id));
   };
 
-  // Toggle Favourites
+  // Toggle Favourites (store only product id)
   const toggleFavourite = (product) => {
     setFavourites((prevFavs) => {
-      const exists = prevFavs.find((item) => item.id === product.id);
+      const exists = prevFavs.includes(product.id);
       if (exists) {
-        return prevFavs.filter((item) => item.id !== product.id);
+        return prevFavs.filter((id) => id !== product.id);
       }
-      return [...prevFavs, product];
+      return [...prevFavs, product.id];
     });
   };
 
   return (
     <ShopContext.Provider
-      value={{ cart, addToCart, updateCart, removeFromCart, favourites, toggleFavourite }}
+      value={{
+        cart,
+        addToCart,
+        updateCart,
+        removeFromCart,
+        favourites,
+        toggleFavourite,
+        products,
+        setProducts,
+      }}
     >
       {children}
     </ShopContext.Provider>

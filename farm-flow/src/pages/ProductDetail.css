@@ -7,6 +7,10 @@
   display: block;
 }
 
+a {
+  text-decoration: none;
+}
+
 .product-detail-container {
   width: 100%;
   max-width: 600px;

@@ -1,6 +1,7 @@
 import React from 'react'
 import { FaArrowLeftLong } from 'react-icons/fa6'
 import { HiOutlinePhotograph } from 'react-icons/hi'
+import { Link } from 'react-router-dom'
 
 const Customers = () => {
   return (
@@ -8,7 +9,9 @@ const Customers = () => {
     <div className='min-h-screen bg-green-100 pt-4'>
       <div className='m-auto w-100 '>
           <div className='flex justify-center items-center bg-green-700 rounded-t-xl pt-10'>
-            <FaArrowLeftLong className='mr-auto'/>
+            <Link to="/user" className='mr-auto'>
+            <FaArrowLeftLong />
+            </Link>
             <p className='font-semibold mr-auto'>Customers</p>
           </div>
           <div className='flex pt-2 mt-2 w-80 m-auto border-2 border-green-400 rounded-lg'>
@@ -22,7 +25,9 @@ const Customers = () => {
             </div>
             <div className='flex items-center'>
               <p>I want 50 basket delivered....</p>
+              <Link to="/history">
               <HiOutlinePhotograph />
+              </Link> 
             </div>
             </div>
           </div>

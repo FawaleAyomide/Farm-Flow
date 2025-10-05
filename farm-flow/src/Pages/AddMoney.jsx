@@ -2,13 +2,16 @@ import React from 'react'
 import { FaArrowLeftLong } from 'react-icons/fa6'
 import { MdOutlineRemoveRedEye } from 'react-icons/md'
 import { LuCreditCard } from 'react-icons/lu'
+import { Link } from 'react-router-dom'
 
 const AddMoney = () => {
   return (
      <>
         <div className='min-h-screen bg-green-100 pt-4'>
               <div className=' bg-green-800 w-100 m-auto p-1 rounded-sm'>
-                <FaArrowLeftLong />
+                <Link to="/wallet">
+                  <FaArrowLeftLong className='cursor-pointer'/>
+                </Link>
                 <p className='mt-8 text-center'>Add Money</p>
               </div>
               <div className='bg-green-400 w-80 m-auto mt-2 rounded-lg shadow-md'>

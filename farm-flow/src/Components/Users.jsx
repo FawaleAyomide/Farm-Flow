@@ -1,8 +1,15 @@
 import React from 'react'
 import { PiMapPinAreaBold } from 'react-icons/pi'
 import { LuBadgeCheck } from 'react-icons/lu'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Users = () => {
+  const navigate = useNavigate();
+
+  const handleEditClick = () => {
+    navigate('/edit,');
+  };
+
   return (
     < >
     <div className='min-h-screen bg-green-100 pt-4'>
@@ -29,20 +36,20 @@ const Users = () => {
           <p>username@gmail.com</p>
           <p>+23412607078</p>
         </div>
-        <a href="">
-          <button className='text-md px-2 m-4 2 w-10 bg-green-700 rounded-xl'>Edit</button>
-        </a>
+        <Link to="/edit">
+        <button onClick={handleEditClick} className='text-md px-2 m-4 2 w-10 bg-green-700 rounded-xl cursor-pointer hover:bg-green-800  transition duration-300 ease-linear'>Edit</button>
+        </Link>
       </div>
     </div>
     <div className='m-auto w-100 border-2 border-green-500 mt-4'>
       <div className='border-b-2 border-green-500 p-2'>
-        <a href="">History</a>
+        <Link to="/customers">History</Link>
       </div>
       <div className='border-b-2 border-green-500 p-2'>
         <a href="">Chat</a>
       </div>
       <div className='border-b-2 border-green-500 p-2'>
-        <a href="">Wallet</a>
+        <Link to="/wallet">Wallet</Link>
       </div>
       <div className='p-2'>
         <a href="">Settings</a>

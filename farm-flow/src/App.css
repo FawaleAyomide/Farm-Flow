@@ -3,10 +3,10 @@
 
 @layer components{
   .btn{
-    @apply bg-green-500 text-lg font-bold w-25 h-7.5 rounded-sm
+    @apply bg-green-500 text-lg font-bold w-25 h-7.5 rounded-sm hover:bg-green-600 transition duration-300 ease-linear cursor-pointer
   }
   .CapBtn{
-    @apply bg-green-500 w-40 rounded-sm m-auto
+    @apply bg-green-500 text-center w-40 rounded-sm m-auto
   }
   .select{
     @apply bg-green-50 size-30 m-auto
@@ -16,5 +16,8 @@
   }
   .customer-container{
     @apply flex bg-green-700 pt-2 mt-2 w-80 m-auto  rounded-lg
+  }
+  .WalletBtn{
+    @apply bg-green-700 w-77 mt-2 rounded-lg m-auto cursor-pointer hover:bg-green-800 transition duration-300 ease-linear
   }
 }

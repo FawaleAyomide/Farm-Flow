@@ -1,6 +1,7 @@
 import React from 'react'
 import { FaArrowLeftLong } from 'react-icons/fa6'
 import { MdFlipCameraAndroid } from 'react-icons/md'
+import { Link } from 'react-router-dom'
 
 const CameraCapture = () => {
   return (
@@ -10,7 +11,9 @@ const CameraCapture = () => {
                 <div className='bg-green-700 h-20 rounded-t-xl'>
                 </div>
                 <div className='flex justify-between text-center px-20 pt-8 text-green-400'>
-                  <FaArrowLeftLong />
+                  <Link to="/capture">
+                    <FaArrowLeftLong />
+                  </Link>
                   <MdFlipCameraAndroid className='text-2xl'/>
                 </div>
                 <div className='flex flex-col gap-2 pt-80'>

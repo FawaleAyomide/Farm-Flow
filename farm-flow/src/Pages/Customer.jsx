@@ -2,6 +2,7 @@ import React from 'react'
 import { FaArrowLeftLong } from 'react-icons/fa6'
 import { BiSend } from 'react-icons/bi'
 import { CiCamera } from 'react-icons/ci'
+import { Link } from 'react-router-dom'
 
 const Customer = () => {
   return (
@@ -9,7 +10,9 @@ const Customer = () => {
   <div className='min-h-screen bg-green-100 pt-4'>
     <div className='m-auto w-100'>
       <div className='flex gap-1 items-center bg-green-700 rounded-t-xl pt-10'>
-        <FaArrowLeftLong className=''/>
+        <Link to="/customers">
+            <FaArrowLeftLong />
+            </Link>
         <div>
           <img src="Profile image2.jpg" alt="" className='h-13 rounded-full'/>
         </div>

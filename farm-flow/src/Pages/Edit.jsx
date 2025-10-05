@@ -1,6 +1,7 @@
 import React from 'react'
 import { MdOutlineRemoveRedEye } from 'react-icons/md'
 import { FaArrowLeftLong } from 'react-icons/fa6'
+import { Link } from 'react-router-dom'
 
 
 const Edit = () => {
@@ -8,13 +9,19 @@ const Edit = () => {
     <>
     <div className='min-h-screen bg-green-100'>
       <div className='m-auto w-100'>
-        <FaArrowLeftLong />
+        <Link to="/user">
+          <FaArrowLeftLong className='cursor-pointer'/>
+        </Link>
         <div>
           <img src="Profile image2.jpg" alt="profile image" className='h-40 m-auto rounded-full'/>
         </div>
         <div className='flex justify-center gap-4 mt-1'>
+          <Link to="/capture">
           <button className='btn'>Gallery</button>
+          </Link>
+          <Link to="/capture">
           <button className='btn'>Camera</button>
+          </Link>
         </div>
         <div className='flex flex-col mt-3 ml-23'>
           <div>
@@ -34,7 +41,7 @@ const Edit = () => {
           <h1>Show Username</h1>
           <MdOutlineRemoveRedEye className='text-green-400'/>
         </div>
-        <button type='submit' className='bg-green-500 ml-23 mt-15 w-55 rounded-md'>Save Changes</button>
+        <button type='submit' className='bg-green-500 ml-23 mt-15 w-55 rounded-md cursor-pointer hover:bg-green-600 transition duration-300 ease-linear'>Save Changes</button>
       </div>
     </div>
     </>

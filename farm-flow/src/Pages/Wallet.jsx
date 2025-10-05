@@ -1,6 +1,7 @@
 import React from 'react'
 import { FaArrowLeftLong, FaPlus } from 'react-icons/fa6'
 import { MdOutlineRemoveRedEye } from 'react-icons/md'
+import { Link } from 'react-router-dom'
 
 
 const Wallet = () => {
@@ -8,7 +9,9 @@ const Wallet = () => {
     <>
     <div className='min-h-screen bg-green-100 pt-4'>
           <div className='flex items-center gap-3 bg-green-800 w-100 m-auto p-1 rounded-sm'>
-            <FaArrowLeftLong />
+            <Link to="/user">
+            <FaArrowLeftLong className='cursor-pointer'/>
+            </Link>
             <img src="Profile image2.jpg" alt="" className='h-15 rounded-full'/>
             <p className='mt-10'>Hi Username!</p>
           </div>
@@ -23,12 +26,14 @@ const Wallet = () => {
           </div>
           <div className='bg-green-400 w-80 m-auto mt-2 rounded-lg pb-3'>
             <div className='flex flex-col'>
-              <div className='flex justify-center items-center bg-green-700 w-77 mt-2 rounded-lg m-auto'>
+              <div className='flex justify-center items-center bg-green-700 w-77 mt-2 rounded-lg m-auto cursor-pointer hover:bg-green-800 transition duration-300 ease-linear'>
                 <FaPlus className='mr-10'/>
-                <button type='submit' className='mr-10'> Add Money</button>
+                <Link to='/add'>
+                <button type='submit' className='mr-10 cursor-pointer'> Add Money</button>
+                </Link>
               </div>
-            <button type='submit' className='bg-green-700 w-77 mt-2 rounded-lg m-auto'>Withdraw</button>
-            <button type='submit' className='bg-green-700 w-77 mt-2 rounded-lg m-auto'>Transaction History</button>
+            <button type='submit' className='WalletBtn'>Withdraw</button>
+            <button type='submit' className='WalletBtn'>Transaction History</button>
             </div>
           </div>
         </div>

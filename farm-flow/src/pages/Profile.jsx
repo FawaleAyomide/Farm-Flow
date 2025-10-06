@@ -4,7 +4,7 @@ import { RiArrowRightSLine } from "react-icons/ri";
 import { RiUser3Line } from "react-icons/ri";
 import { RiMore2Line } from "react-icons/ri";
 import displayImg from "../Images/displayImg.svg";
-import "../Style/Profile.css";
+import "../Style/profile.css";
 
 const Profile = () => {
   const navigate = useNavigate();

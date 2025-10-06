@@ -8,6 +8,7 @@ import { AuthProvider } from "./Auth/AuthProvider";
 import { ShopProvider } from "./context/ShopContext";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
+import Profile from "./pages/Profile";
 import Checkout from "./pages/Checkout";
 import Favourites from "./pages/Favourites";
 import LoginPage from "./Auth/LoginPage";
@@ -44,7 +45,7 @@ export default function App() {
               />
               <Route
                 path="/profile"
-                element={<h1 className="p-6">User Profile</h1>}
+                element={<Profile/>}
               />
               <Route
                 path="/settings"

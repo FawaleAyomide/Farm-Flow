@@ -1,4 +1,3 @@
-// src/auth/SignupPage.js
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
@@ -18,6 +17,7 @@ function SignupPage() {
     password: "",
     confirmPassword: "",
   });
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [errors, setErrors] = useState({});
@@ -38,43 +38,136 @@ function SignupPage() {
     else if (form.password.length < 6)
       newErrors.password = "At least 6 characters";
 
-    if (form.password !== form.confirmPassword)
-      newErrors.confirmPassword = "Passwords do not match";
+    // Debug: log password comparison
+    console.log("🔍 Comparing passwords:", {
+      password: form.password,
+      confirmPassword: form.confirmPassword,
+      areEqual: form.password === form.confirmPassword,
+    });
+
+    if (form.password !== form.confirmPassword) {
+      // Instead of blocking, just show a warning
+      console.warn(
+        "⚠️ Passwords appear different, but allowing submission for debugging."
+      );
+      toast.warn("Debug: Passwords appear different (check console).");
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  // const validate = () => {
+  //   const newErrors = {};
+  //   const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  //   const trimmedPassword = form.password.trim();
+  //   const trimmedConfirm = form.confirmPassword.trim();
+
+  //   if (!form.firstName.trim()) newErrors.firstName = "First name required";
+  //   if (!form.lastName.trim()) newErrors.lastName = "Last name required";
+
+  //   if (!form.email.trim()) newErrors.email = "Email required";
+  //   else if (!emailRegex.test(form.email.trim()))
+  //     newErrors.email = "Invalid email format";
+
+  //   if (!trimmedPassword) newErrors.password = "Password required";
+  //   else if (trimmedPassword.length < 6)
+  //     newErrors.password = "At least 6 characters";
+
+  //   if (!trimmedConfirm)
+  //     newErrors.confirmPassword = "Confirm password required";
+  //   else if (trimmedPassword !== trimmedConfirm)
+  //     newErrors.confirmPassword = "Passwords do not match";
+
+  //   setErrors(newErrors);
+  //   return Object.keys(newErrors).length === 0;
+  // };
+
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
 
+    console.log("Form data before sending:", form); // ✅ debug log
+
     try {
       setLoading(true);
-      // Fake API call (replace with your backend endpoint)
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
-      });
+
+      const res = await fetch(
+        "https://farmarket.up.railway.app/api/auth/signup",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            firstName: form.firstName.trim(),
+            lastName: form.lastName.trim(),
+            email: form.email.trim(),
+            password: form.password,
+            confirmPassword: form.confirmPassword, // ✅ ensure this is included
+          }),
+        }
+      );
+
+      const data = await res.json();
+      console.log("Server response:", data);
 
       if (!res.ok) {
-        const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.message || "Signup failed");
+        throw new Error(data.message || "Signup failed");
       }
 
       toast.success("Account created successfully!", { autoClose: 1500 });
       setTimeout(() => navigate("/login"), 1600);
     } catch (err) {
+      console.error("Signup error:", err);
       toast.error(err.message || "Signup error");
     } finally {
       setLoading(false);
     }
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+
+  //   console.log("Password:", JSON.stringify(form.password));
+  //   console.log("Confirm Password:", JSON.stringify(form.confirmPassword));
+
+  //   if (!validate()) return;
+
+  //   setLoading(true);
+  //   try {
+  //     const res = await fetch(
+  //       "https://farmarket.up.railway.app/api/auth/signup",
+  //       {
+  //         method: "POST",
+  //         headers: { "Content-Type": "application/json" },
+  //         body: JSON.stringify({
+  //           firstName: form.firstName.trim(),
+  //           lastName: form.lastName.trim(),
+  //           email: form.email.trim().toLowerCase(),
+  //           password: form.password,
+  //         }),
+  //       }
+  //     );
+
+  //     const result = await res.json();
+
+  //     if (!res.ok) {
+  //       throw new Error(result.message || "Registration failed");
+  //     }
+
+  //     toast.success("Account created successfully!", { autoClose: 1500 });
+  //     setTimeout(() => navigate("/login"), 1600);
+  //   } catch (error) {
+  //     toast.error(error.message || "Signup failed. Please try again.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <div className="auth-container">

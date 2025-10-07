@@ -1,82 +1,123 @@
-import { useState, createContext, useContext } from "react";
+// src/auth/AuthProvider.jsx
+import { createContext, useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const AuthContext = createContext(null);
-export const useAuth = () => useContext(AuthContext);
+const AuthContext = createContext();
 
-export function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
+export const AuthProvider = ({ children }) => {
+  const navigate = useNavigate();
 
-  async function login(email, password) {
+  const [user, setUser] = useState(() => {
+    // Load from localStorage if available
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+
+  const [token, setToken] = useState(() => localStorage.getItem("token") || "");
+  const [loading, setLoading] = useState(false);
+
+  // 🧭 Auto-redirect if token exists
+  useEffect(() => {
+    if (token && !user) {
+      fetchProfile();
+    }
+  }, [token]);
+
+  // 🔹 Login function
+  const login = async ({ email, password }) => {
+    setLoading(true);
     try {
-      const res = await fetch("/api/auth/login", {
+      const res = await fetch("https://farmarket.up.railway.app/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-      if (!res.ok) throw new Error("Login failed");
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Invalid credentials");
+      }
+
+      // Save token & user
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      setToken(data.token);
+      setUser(data.user);
+      navigate("/home", { replace: true });
+
+      return data;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 🔹 Signup function (optional if handled on SignupPage)
+  const signup = async (formData) => {
+    setLoading(true);
+    try {
+      const res = await fetch("https://farmarket.up.railway.app/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Signup failed");
+      }
+
+      return data;
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // 🔹 Fetch user profile (if token exists)
+  const fetchProfile = async () => {
+    try {
+      const res = await fetch("https://farmarket.up.railway.app/api/auth/profile", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!res.ok) throw new Error("Failed to fetch user profile");
+
       const data = await res.json();
       setUser(data.user);
-      setToken(data.token);
-    } catch (err) {
-      alert(err.message);
+      localStorage.setItem("user", JSON.stringify(data.user));
+    } catch (error) {
+      console.error("Auth error:", error);
+      logout(); // Clear bad session
     }
-  }
+  };
 
-  async function signup(email, password) {
-    try {
-      const res = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
-      if (!res.ok) throw new Error("Signup failed");
-      const data = await res.json();
-      setUser(data.user);
-      setToken(data.token);
-    } catch (err) {
-      alert(err.message);
-    }
-  }
-
-  async function resetPassword(email) {
-    try {
-      const res = await fetch("/api/auth/reset-password", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      if (!res.ok) throw new Error("Reset failed");
-      alert("Reset link sent to email");
-    } catch (err) {
-      alert(err.message);
-    }
-  }
-
-  async function verifyEmail(code) {
-    try {
-      const res = await fetch("/api/auth/verify-email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code }),
-      });
-      if (!res.ok) throw new Error("Verification failed");
-      alert("Email verified successfully");
-    } catch (err) {
-      alert(err.message);
-    }
-  }
-
-  function logout() {
+  // 🔹 Logout
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     setUser(null);
-    setToken(null);
-  }
+    setToken("");
+    navigate("/login");
+  };
+
+  const value = {
+    user,
+    token,
+    loading,
+    login,
+    signup,
+    logout,
+    isAuthenticated: !!token,
+  };
 
   return (
-    <AuthContext.Provider
-      value={{ user, token, login, signup, resetPassword, verifyEmail, logout }}
-    >
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
-}
+};
+
+// ✅ Hook to use Auth anywhere
+export const useAuth = () => useContext(AuthContext);

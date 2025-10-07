@@ -1,16 +1,15 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "./AuthProvider";
+import { ToastContainer } from "react-toastify";
 import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
 import apple from "../Images/Apple Icon.svg";
 import google from "../Images/Google Icon.svg";
 import "../Style/auth.css";
+import "react-toastify/dist/ReactToastify.css";
 
 const LoginPage = () => {
-  const { login } = useAuth();
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [form, setForm] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -19,15 +18,20 @@ const LoginPage = () => {
     const newErrors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!email) newErrors.email = "Email is required";
-    else if (!emailRegex.test(email)) newErrors.email = "Invalid email format";
+    if (!form.email) newErrors.email = "Email is required";
+    else if (!emailRegex.test(form.email))
+      newErrors.email = "Invalid email format";
 
-    if (!password) newErrors.password = "Password is required";
-    else if (password.length < 6)
+    if (!form.password) newErrors.password = "Password is required";
+    else if (form.password.length < 6)
       newErrors.password = "Password must be at least 6 characters";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e) => {
@@ -36,10 +40,27 @@ const LoginPage = () => {
 
     try {
       setLoading(true);
-      await login(email, password);
+
+      const res = await fetch("https://farmarket.up.railway.app/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: form.email.trim(),
+          password: form.password,
+        }),
+      });
+
+      const data = await res.json();
+      console.log("Login response:", data);
+
+      if (!res.ok) {
+        throw new Error(data.message || "Login failed");
+      }
+
       navigate("/home", { replace: true });
     } catch (err) {
-      setErrors({ form: err.message || "Login Successful" });
+      console.error("Login error:", err);
+      setErrors({ form: err.message || "Login failed" });
     } finally {
       setLoading(false);
     }
@@ -56,9 +77,11 @@ const LoginPage = () => {
         <div className="input-wrapper">
           <label htmlFor="email">Enter your Email Address</label>
           <input
+            type="email"
+            name="email"
             placeholder="Email Address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={form.email}
+            onChange={handleChange}
           />
           <div className="err-msg">
             {errors.email && <p className="error">{errors.email}</p>}
@@ -70,9 +93,10 @@ const LoginPage = () => {
             <label htmlFor="password">Enter Password</label>
             <input
               type={showPassword ? "text" : "password"}
+              name="password"
               placeholder="Enter Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={form.password}
+              onChange={handleChange}
             />
             <div className="err-msg">
               {errors.password && <p className="error">{errors.password}</p>}
@@ -116,6 +140,7 @@ const LoginPage = () => {
           Sign up
         </Link>
       </p>
+      <ToastContainer />
     </div>
   );
 };

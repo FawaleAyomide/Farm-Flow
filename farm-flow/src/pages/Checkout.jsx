@@ -31,7 +31,7 @@ const Checkout = () => {
       {/* Cart Summary */}
       <div className="cart-summary">
         {cart.length === 0 ? (
-          <p>Your basket is empty 🛒</p>
+          <p className="empty">Your basket is empty 🛒</p>
         ) : (
           cart.map((item) => (
             <div key={item.id} className="cart-item">
@@ -76,7 +76,6 @@ const Checkout = () => {
             </div>
           ))
         )}
-
         {/* {cart.length > 0 && (
           <>
             <hr />
@@ -87,7 +86,17 @@ const Checkout = () => {
           </>
         )} */}
       </div>
-
+      <div className="checkout-wrapper">
+        <div className="cart-total">
+          <p>Sub Total</p>
+          <span>₦{total}</span>
+        </div>
+        <div className="cart-total">
+          <p>Delivery Fee</p>
+          <span>₦{total}</span>
+        </div>
+        <button className="place-order-btn">Check Out ₦{total}</button>
+      </div>
       {/* Billing Form */}
       {/* {cart.length > 0 && (
         <form className="checkout-form">

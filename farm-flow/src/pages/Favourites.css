@@ -1,23 +1,16 @@
-.favourites-page {
-  /* min-height: 100vh; */
-  width: 100%;       
-  /* background-color: #d1fae5;
-  padding-bottom: 70px;
-  box-sizing: border-box;
-  overflow-x: hidden;
-  display: block; */
-}
-
 .favourites-container {
-  width: 100%;
   max-width: 600px;
   margin: 0 auto;  
-  padding: 16px;
+  padding: 30px 20px;
   display: flex;
   flex-direction: column;
   gap: 16px;
   background: transparent;
   height: 100vh;
+}
+.favourites-container h2{
+  font-size: 20px;
+  margin-bottom: 5px;
 }
 
 /* Optional: grid and card styles */

@@ -39,10 +39,9 @@ export const ShopProvider = ({ children }) => {
   const toggleFavourite = (product) => {
     setFavourites((prevFavs) => {
       const exists = prevFavs.find((item) => item.id === product.id);
-      if (exists) {
-        return prevFavs.filter((item) => item.id !== product.id);
-      }
-      return [...prevFavs, product];
+      return exists
+        ? prevFavs.filter((item) => item.id !== product.id)
+        : [...prevFavs, product];
     });
   };
 
@@ -54,5 +53,7 @@ export const ShopProvider = ({ children }) => {
     </ShopContext.Provider>
   );
 };
+
+export default ShopContext;
 
 export const useShop = () => useContext(ShopContext);

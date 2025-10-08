@@ -10,12 +10,12 @@ const BottomNav = () => {
         <span>Home</span>
       </Link>
 
-      <Link to="/products" className="nav-item">
+      <Link to="/checkout" className="nav-item">
         <ShoppingCart size={20} />
-        <span>Products</span>
+        <span>My Carts</span>
       </Link>
 
-      <Link to="/favorites" className="nav-item">
+      <Link to="/favourites" className="nav-item">
         <Heart size={20} />
         <span>Favorites</span>
       </Link>

@@ -13,6 +13,7 @@ import Home from "./pages/Home";
 import SplashScreen from "./Auth/SplashScreen";
 import OnboardingScreen from "./Auth/OnboardingScreen";
 import SetPasswordPage from "./Auth/SetPasswordPage";
+import EditProfile from "./pages/EditProfile";
 
 export default function App() {
   const { user } = useAuth();
@@ -48,6 +49,7 @@ export default function App() {
       <Route path="/favourites" element={<Favourites />} />
       <Route path="/upload" element={<h1 className="p-6">Upload Page</h1>} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/editprofile" element={<EditProfile />} />
       <Route path="/settings" element={<h1 className="p-6">Settings</h1>} />
 
       {/* fallback route */}

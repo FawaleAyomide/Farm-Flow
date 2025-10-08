@@ -121,7 +121,7 @@ const Checkout = () => {
             Place Order
           </button>
         </form>
-      )} */}
+      )} */}  
     </div>
   );
 };

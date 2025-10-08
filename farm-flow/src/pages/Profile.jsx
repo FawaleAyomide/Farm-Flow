@@ -1,12 +1,11 @@
 import { useAuth } from "../Auth/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link } from "react-router-dom";
 import { RiArrowLeftLine } from "react-icons/ri";
 import { RiArrowRightSLine } from "react-icons/ri";
 import { RiUser3Line } from "react-icons/ri";
 import { RiMore2Line } from "react-icons/ri";
 import displayImg from "../Images/displayImg.svg";
 import "../Style/profile.css";
-import { LogOut } from "lucide-react";
 
 const Profile = () => {
   const { user, logout } = useAuth();
@@ -17,7 +16,6 @@ const Profile = () => {
   };
 
   return (
-    // <div className="profile-wrapper">
     <div className="user-profile">
       <div className="profile-wrapper">
         <div className="head">
@@ -42,7 +40,9 @@ const Profile = () => {
               </h1>
               <p>{user?.email || "No email available"}</p>
             </div>
-            <button className="profile-btn">Edit Profile</button>
+            <Link to="/editprofile" className="profile-btn">
+                Edit Profile
+              </Link>
             <div className="user-profile-btn">
               <div className="left">
                 <RiUser3Line size={20} className="user-icon" />
@@ -57,7 +57,6 @@ const Profile = () => {
         <button className="logout-btn" onClick={logout} >Log Out</button>
       </div>
     </div>
-    // </div>
   );
 };
 

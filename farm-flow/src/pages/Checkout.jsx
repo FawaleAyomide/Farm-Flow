@@ -1,16 +1,32 @@
 // src/pages/Checkout.jsx
-import { Link } from "react-router-dom";
-import { useShop } from "../context/ShopContext"; 
+import { Link, useNavigate } from "react-router-dom";
+import { useShop } from "../context/ShopContext";
+import { RiMore2Line } from "react-icons/ri";
+import { RiArrowLeftLine } from "react-icons/ri";
+import { RiDeleteBinLine } from "react-icons/ri";
 import "./Checkout.css";
 
 const Checkout = () => {
-  const { cart, updateCart, removeFromCart } = useShop();  // use context methods
+  const navigate = useNavigate();
+  const { cart, updateCart, removeFromCart } = useShop(); // use context methods
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+  const handleBack = () => {
+    navigate(-1);
+  };
+
   return (
     <div className="checkout-page">
-      <h2 className="checkout-title">Checkout</h2>
+      <div className="head">
+        <RiArrowLeftLine
+          size={25}
+          className="arrow-left-icon"
+          onClick={handleBack}
+        />
+        <h1>My Cart</h1>
+        <RiMore2Line size={25} className="arrow-left-icon" />
+      </div>
 
       {/* Cart Summary */}
       <div className="cart-summary">
@@ -20,13 +36,26 @@ const Checkout = () => {
           cart.map((item) => (
             <div key={item.id} className="cart-item">
               {/* Item Image */}
-              <img src={item.image} alt={item.name} className="cart-item-image" />
+              <img
+                src={item.image}
+                alt={item.name}
+                className="cart-item-image"
+              />
 
               {/* Item Info */}
               <div className="cart-item-info">
                 <h4 className="cart-item-name">{item.name}</h4>
-                <p className="cart-item-price">₦{item.price}</p>
+                <p className="cart-item-price">{item.price}</p>
 
+              </div>
+
+              {/* Item Total + Remove */}
+              <div className="cart-item-actions">
+                {/* <span className="item-total">
+                  ₦{item.price * item.quantity}
+                </span> */}
+                <RiDeleteBinLine className="remove-btn"
+                  onClick={() => removeFromCart(item.id)} />
                 {/* Quantity Controls */}
                 <div className="quantity-controls">
                   <button
@@ -37,27 +66,18 @@ const Checkout = () => {
                     -
                   </button>
                   <span>{item.quantity}</span>
-                  <button onClick={() => updateCart(item.id, item.quantity + 1)}>
+                  <button
+                    onClick={() => updateCart(item.id, item.quantity + 1)}
+                  >
                     +
                   </button>
                 </div>
-              </div>
-
-              {/* Item Total + Remove */}
-              <div className="cart-item-actions">
-                <span className="item-total">₦{item.price * item.quantity}</span>
-                <button
-                  className="remove-btn"
-                  onClick={() => removeFromCart(item.id)}
-                >
-                  🗑️
-                </button>
               </div>
             </div>
           ))
         )}
 
-        {cart.length > 0 && (
+        {/* {cart.length > 0 && (
           <>
             <hr />
             <div className="cart-total">
@@ -65,11 +85,11 @@ const Checkout = () => {
               <span>₦{total}</span>
             </div>
           </>
-        )}
+        )} */}
       </div>
 
       {/* Billing Form */}
-      {cart.length > 0 && (
+      {/* {cart.length > 0 && (
         <form className="checkout-form">
           <h3 className="form-title">Billing Details</h3>
           <input type="text" placeholder="Full Name" required />
@@ -92,9 +112,7 @@ const Checkout = () => {
             Place Order
           </button>
         </form>
-      )}
-
-      <Link to="/" className="back-to-shop">← Back to Shop</Link>
+      )} */}
     </div>
   );
 };

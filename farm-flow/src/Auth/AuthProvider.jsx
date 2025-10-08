@@ -1,4 +1,4 @@
-// src/auth/AuthProvider.jsx
+// src/Auth/AuthProvider.jsx
 import { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   const [user, setUser] = useState(() => {
-    // Load from localStorage if available
+    // Load saved user if available
     const savedUser = localStorage.getItem("user");
     return savedUser ? JSON.parse(savedUser) : null;
   });
@@ -16,15 +16,15 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(() => localStorage.getItem("token") || "");
   const [loading, setLoading] = useState(false);
 
-  // 🧭 Auto-redirect if token exists
+  // 🧭 Auto-load profile when token changes (e.g., refresh or after login)
   useEffect(() => {
     if (token && !user) {
       fetchProfile();
     }
   }, [token]);
 
-  // 🔹 Login function
-  const login = async ({ email, password }) => {
+  // 🔹 LOGIN
+  const login = async (email, password) => {
     setLoading(true);
     try {
       const res = await fetch("https://farmarket.up.railway.app/api/auth/login", {
@@ -34,26 +34,33 @@ export const AuthProvider = ({ children }) => {
       });
 
       const data = await res.json();
+      console.log("🔑 Login response:", data);
 
       if (!res.ok) {
         throw new Error(data.message || "Invalid credentials");
       }
 
-      // Save token & user
+      // ✅ Save token & user to localStorage
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
+      // ✅ Update state
       setToken(data.token);
       setUser(data.user);
+
+      // ✅ Redirect to home
       navigate("/home", { replace: true });
 
       return data;
+    } catch (err) {
+      console.error("Login error:", err);
+      throw err;
     } finally {
       setLoading(false);
     }
   };
 
-  // 🔹 Signup function (optional if handled on SignupPage)
+  // 🔹 SIGNUP
   const signup = async (formData) => {
     setLoading(true);
     try {
@@ -64,10 +71,7 @@ export const AuthProvider = ({ children }) => {
       });
 
       const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || "Signup failed");
-      }
+      if (!res.ok) throw new Error(data.message || "Signup failed");
 
       return data;
     } finally {
@@ -75,7 +79,7 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // 🔹 Fetch user profile (if token exists)
+  // 🔹 FETCH PROFILE
   const fetchProfile = async () => {
     try {
       const res = await fetch("https://farmarket.up.railway.app/api/auth/profile", {
@@ -89,17 +93,17 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem("user", JSON.stringify(data.user));
     } catch (error) {
       console.error("Auth error:", error);
-      logout(); // Clear bad session
+      logout(); // clear session if token invalid
     }
   };
 
-  // 🔹 Logout
+  // 🔹 LOGOUT
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
     setToken("");
-    navigate("/login");
+    navigate("/login", { replace: true });
   };
 
   const value = {
@@ -112,11 +116,7 @@ export const AuthProvider = ({ children }) => {
     isAuthenticated: !!token,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 // ✅ Hook to use Auth anywhere

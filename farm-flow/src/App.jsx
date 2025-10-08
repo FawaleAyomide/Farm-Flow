@@ -1,11 +1,5 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import { AuthProvider } from "./Auth/AuthProvider";
-import { ShopProvider } from "./context/ShopContext";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./Auth/AuthProvider";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 import Profile from "./pages/Profile";
@@ -21,37 +15,46 @@ import OnboardingScreen from "./Auth/OnboardingScreen";
 import SetPasswordPage from "./Auth/SetPasswordPage";
 
 export default function App() {
+  const { user } = useAuth();
+
   return (
-    <Router>
-      <AuthProvider>
-        <ShopProvider>
-          <Routes>
-            {/* main app wrapper */}
-            <Route path="/splash" element={<SplashScreen />} />
-            <Route path="/onboarding" element={<OnboardingScreen />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/reset-password" element={<ResetPasswordPage />} />
-            <Route path="/verify-email" element={<VerifyEmailPage />} />
-            <Route path="/home" element={<Home />} />
-            <Route path="/set-password" element={<SetPasswordPage />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/product/:id" element={<ProductDetail />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/favourites" element={<Favourites />} />
-            <Route
-              path="/upload"
-              element={<h1 className="p-6">Upload Page</h1>}
-            />
-            <Route path="/profile" element={<Profile />} />
-            <Route
-              path="/settings"
-              element={<h1 className="p-6">Settings</h1>}
-            />
-            <Route path="*" element={<Navigate to="/splash" />} />
-          </Routes>
-        </ShopProvider>
-      </AuthProvider>
-    </Router>
+    <Routes>
+      {/* Public routes */}
+      <Route path="/splash" element={<SplashScreen />} />
+      <Route
+        path="/onboarding"
+        element={!user ? <OnboardingScreen /> : <Navigate to="/home" replace />}
+      />
+      <Route
+        path="/login"
+        element={!user ? <LoginPage /> : <Navigate to="/home" replace />}
+      />
+      <Route
+        path="/signup"
+        element={!user ? <SignupPage /> : <Navigate to="/home" replace />}
+      />
+      <Route path="/reset-password" element={<ResetPasswordPage />} />
+      <Route path="/verify-email" element={<VerifyEmailPage />} />
+      <Route path="/set-password" element={<SetPasswordPage />} />
+
+      {/* Protected routes */}
+      <Route
+        path="/home"
+        element={user ? <Home /> : <Navigate to="/login" replace />}
+      />
+      <Route path="/products" element={<Products />} />
+      <Route path="/product/:id" element={<ProductDetail />} />
+      <Route path="/checkout" element={<Checkout />} />
+      <Route path="/favourites" element={<Favourites />} />
+      <Route path="/upload" element={<h1 className="p-6">Upload Page</h1>} />
+      <Route path="/profile" element={<Profile />} />
+      <Route path="/settings" element={<h1 className="p-6">Settings</h1>} />
+
+      {/* fallback route */}
+      <Route
+        path="*"
+        element={<Navigate to={user ? "/home" : "/splash"} replace />}
+      />
+    </Routes>
   );
 }

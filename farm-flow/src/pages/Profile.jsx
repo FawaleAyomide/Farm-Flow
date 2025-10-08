@@ -1,3 +1,4 @@
+import { useAuth } from "../Auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import { RiArrowLeftLine } from "react-icons/ri";
 import { RiArrowRightSLine } from "react-icons/ri";
@@ -5,8 +6,10 @@ import { RiUser3Line } from "react-icons/ri";
 import { RiMore2Line } from "react-icons/ri";
 import displayImg from "../Images/displayImg.svg";
 import "../Style/profile.css";
+import { LogOut } from "lucide-react";
 
 const Profile = () => {
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -32,8 +35,12 @@ const Profile = () => {
           />
           <div className="middle-content">
             <div className="text-wrapper">
-              <h1>John Doe</h1>
-              <p>johndoe@gmail.com</p>
+              <h1>                
+                {user?.firstName && user?.lastName
+                  ? `${user.firstName} ${user.lastName}`
+                  : "User"}
+              </h1>
+              <p>{user?.email || "No email available"}</p>
             </div>
             <button className="profile-btn">Edit Profile</button>
             <div className="user-profile-btn">
@@ -47,7 +54,7 @@ const Profile = () => {
         </div>
       </div>
       <div className="logout-wrapper">
-        <button className="logout-btn">Log Out</button>
+        <button className="logout-btn" onClick={logout} >Log Out</button>
       </div>
     </div>
     // </div>

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useAuth } from "../Auth/AuthProvider";
 import { Link } from "react-router-dom";
 import { useShop } from "../context/ShopContext";
 import okra from "../Images/okra.svg";
@@ -8,6 +9,7 @@ import onions from "../Images/onions.svg";
 import tomatoes from "../Images/tomatoes.jpeg";
 import userAvatar from "../Images/userAvatar.svg";
 import { RiNotification2Line } from "react-icons/ri";
+import { RiShoppingCartLine } from "react-icons/ri";
 import { RiSearchLine } from "react-icons/ri";
 import { RiFilter3Line } from "react-icons/ri";
 import { RiHeart3Line } from "react-icons/ri";
@@ -16,6 +18,8 @@ import BottomNav from "../components/BottomNav";
 import "./Products.css";
 
 const Products = () => {
+  const { user } = useAuth();
+
   const initialProducts = [
     {
       id: 1,
@@ -88,11 +92,17 @@ const Products = () => {
           <img src={userAvatar} alt="User" className="user-avatar" />
           <div className="user-text">
             <p className="welcome-text">Welcome</p>
-            <h3 className="user-name">John Doe</h3>
+            <h3 className="user-name">
+              {" "}
+              {user?.firstName && user?.lastName
+                ? `${user.firstName} ${user.lastName}`
+                : "User"}
+            </h3>
           </div>
         </div>
         <div className="header-actions">
           <Link to="/checkout" className="basket-btn">
+          <RiShoppingCartLine  className="cart" size={20}/>
             {cart.length > 0 && (
               <span className="cart-count">{cart.length}</span>
             )}
@@ -178,7 +188,7 @@ const Products = () => {
 
       {/* bottom nav bar (only for shop pages) */}
       <div className="bottom-nav-wrapper">
-      <BottomNav />
+        <BottomNav />
       </div>
     </div>
   );

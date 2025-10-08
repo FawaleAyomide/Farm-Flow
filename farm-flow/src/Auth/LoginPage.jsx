@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "./AuthProvider";
 import { ToastContainer } from "react-toastify";
 import { RiEyeLine, RiEyeOffLine } from "react-icons/ri";
 import apple from "../Images/Apple Icon.svg";
@@ -9,6 +10,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const { login } = useAuth();
   const [form, setForm] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -40,24 +42,7 @@ const LoginPage = () => {
 
     try {
       setLoading(true);
-
-      const res = await fetch("https://farmarket.up.railway.app/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: form.email.trim(),
-          password: form.password,
-        }),
-      });
-
-      const data = await res.json();
-      console.log("Login response:", data);
-
-      if (!res.ok) {
-        throw new Error(data.message || "Login failed");
-      }
-
-      navigate("/home", { replace: true });
+      await login(form.email.trim(), form.password); // ✅ call AuthProvider login
     } catch (err) {
       console.error("Login error:", err);
       setErrors({ form: err.message || "Login failed" });
@@ -65,6 +50,40 @@ const LoginPage = () => {
       setLoading(false);
     }
   };
+
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!validate()) return;
+
+  //   try {
+  //     setLoading(true);
+
+  //     const res = await fetch("https://farmarket.up.railway.app/api/auth/login", {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify({
+  //         email: form.email.trim(),
+  //         password: form.password,
+  //       }),
+  //     });
+
+  //     const data = await res.json();
+  //     console.log("Login response:", data);
+
+  //     if (!res.ok) {
+  //       throw new Error(data.message || "Login failed");
+  //     }
+
+  //     localStorage.setItem("user", JSON.stringify(data.user || data));
+
+  //     navigate("/home", { replace: true });
+  //   } catch (err) {
+  //     console.error("Login error:", err);
+  //     setErrors({ form: err.message || "Login failed" });
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   return (
     <div className="loginpage">
@@ -106,7 +125,11 @@ const LoginPage = () => {
             className="toggle-password"
             onClick={() => setShowPassword(!showPassword)}
           >
-            {showPassword ? <RiEyeLine size={20} /> : <RiEyeOffLine size={20} />}
+            {showPassword ? (
+              <RiEyeLine size={20} />
+            ) : (
+              <RiEyeOffLine size={20} />
+            )}
           </div>
         </div>
 

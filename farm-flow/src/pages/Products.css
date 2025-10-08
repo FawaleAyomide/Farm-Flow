@@ -3,6 +3,7 @@
   min-height: 100vh;
   padding: 30px 20px 30px 20px;
   padding-bottom: 70px;
+  width: 100%;
   /* margin: auto;  */
   /* max-width: 600px; */
   /* space for fixed nav */
@@ -75,27 +76,6 @@
   grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
   gap: 12px;
 }
-
-/* Tablet */
-/* @media (min-width: 640px) { 
-  .products-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-} */
-
-/* Larger Tablet */
-/* @media (min-width: 768px) { 
-  .products-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-} */
-
-/* Desktop */
-/* @media (min-width: 1024px) { 
-  .products-grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
-} */
 
 /* Product card */
 .product-card {

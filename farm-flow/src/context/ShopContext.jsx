@@ -39,9 +39,10 @@ export const ShopProvider = ({ children }) => {
   const toggleFavourite = (product) => {
     setFavourites((prevFavs) => {
       const exists = prevFavs.find((item) => item.id === product.id);
-      return exists
-        ? prevFavs.filter((item) => item.id !== product.id)
-        : [...prevFavs, product];
+      if (exists) {
+        return prevFavs.filter((item) => item.id !== product.id);
+      }
+      return [...prevFavs, product];
     });
   };
 

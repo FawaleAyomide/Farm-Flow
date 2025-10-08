@@ -3,6 +3,7 @@
   min-height: 100vh;
   padding: 30px 20px 30px 20px;
   padding-bottom: 70px;
+  overflow: hidden;
   /* width: 100%; */
   /* margin: auto;  */
   /* max-width: 600px; */
@@ -52,6 +53,11 @@
   display: flex;
   gap: 8px;
   margin-bottom: 14px;
+  white-space: nowrap;
+  overflow-x: scroll;
+}
+.filter-buttons::-webkit-scrollbar {
+  width: 0;
 }
 
 .filter-buttons button {

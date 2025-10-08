@@ -138,10 +138,13 @@ const Checkout = () => {
 
               <div className="cart-item-info">
                 <h4 className="cart-item-name">{item.name}</h4>
+                <p className="cart-item-category">
+                  {/* {item.category} */}
+                  Category
+                  </p>
                 <p className="cart-item-price">
                   ₦{item.price?.toLocaleString()}
                 </p>
-                <p className="cart-item-category">{item.category}</p>
               </div>
 
               <div className="cart-item-actions">

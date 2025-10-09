@@ -25,6 +25,15 @@ const Products = () => {
   const [filter, setFilter] = useState("All");
   const [loading, setLoading] = useState(false);
 
+  // ✅ Pull profile photo from localStorage
+  const [profilePhoto, setProfilePhoto] = useState(userAvatar);
+
+  useEffect(() => {
+    const storedPhoto =
+      localStorage.getItem("profilePhoto") || user?.avatar || userAvatar;
+    setProfilePhoto(storedPhoto);
+  }, [user]);
+
   // ✅ Fetch all products once
   const fetchProducts = async () => {
     try {
@@ -84,7 +93,12 @@ const Products = () => {
       {/* Header */}
       <div className="products-header">
         <div className="user-info">
-          <img src={userAvatar} alt="User" className="user-avatar" />
+          {/* ✅ Display dynamic profile photo */}
+          <img
+            src={profilePhoto}
+            alt="User"
+            className="user-avatar"
+          />
           <div className="user-text">
             <p className="welcome-text">Welcome</p>
             <h3 className="user-name">
@@ -94,6 +108,7 @@ const Products = () => {
             </h3>
           </div>
         </div>
+
         <div className="header-actions">
           <Link to="/checkout" className="basket-btn">
             <RiShoppingCartLine className="cart" size={20} />
@@ -152,6 +167,7 @@ const Products = () => {
                     className="product-image"
                   />
                 </div>
+
                 <div className="cat-wrapper">
                   <span className="product-category">{categoryName}</span>
                   <div
@@ -165,15 +181,18 @@ const Products = () => {
                     )}
                   </div>
                 </div>
+
                 <div className="pn-wrapper">
                   <h3 className="product-name">{p.name}</h3>
                   <p className="product-price">
                     ₦{p.pricePerUnit?.toLocaleString() || "N/A"}
                   </p>
                 </div>
+
                 <button className="add-to-cart" onClick={() => addToCart(p)}>
                   Add to Cart
                 </button>
+
                 <Link to={`/product/${p._id}`} className="see-details">
                   See Details
                 </Link>
@@ -191,6 +210,7 @@ const Products = () => {
 };
 
 export default Products;
+
 
 
 // import { useState, useEffect } from "react";

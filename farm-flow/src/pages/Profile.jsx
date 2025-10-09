@@ -7,7 +7,7 @@ import {
   RiMore2Line,
   RiCameraLine,
 } from "react-icons/ri";
-import displayImg from "../Images/displayImg.svg";
+import displayImg from "../Images/userAvatar.svg";
 import "../Style/profile.css";
 import { useState, useEffect } from "react";
 
@@ -91,7 +91,7 @@ const Profile = () => {
           <div className="profile-photo-container">
             <label htmlFor="profile-upload" className="upload-label">
               <img
-                src={selectedImage}
+                src={selectedImage || {displayImg}}
                 alt="User avatar"
                 className="display-img"
               />

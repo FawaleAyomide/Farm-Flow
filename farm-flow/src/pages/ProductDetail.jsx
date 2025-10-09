@@ -1,7 +1,7 @@
 // src/pages/ProductDetail.jsx
 import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useShop } from "../context/ShopContext"; // ✅ make sure to use the same context as Products
+import { useShop } from "../context/ShopContext";
 import "./ProductDetail.css";
 
 const ProductDetail = () => {
@@ -12,26 +12,47 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [categoryMap, setCategoryMap] = useState({});
 
-  // ✅ Fetch single product details from API
+  // ✅ Fetch all categories once to map category IDs → names
+  const fetchCategories = async () => {
+    try {
+      const res = await fetch(`https://farmarket.up.railway.app/api/categories`);
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message || "Failed to load categories");
+
+      const map = {};
+      (data.data || []).forEach((c) => {
+        map[c._id] = c.name;
+      });
+
+      setCategoryMap(map);
+    } catch (err) {
+      console.error("Error fetching categories:", err);
+    }
+  };
+
+  // ✅ Fetch single product
+  const fetchProduct = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(`https://farmarket.up.railway.app/api/products/${id}`);
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message || "Failed to load product");
+
+      setProduct(data.data || data);
+    } catch (err) {
+      console.error("Error fetching product:", err);
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchProduct = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch(`https://farmarket.up.railway.app/api/products/${id}`);
-        const data = await res.json();
-
-        if (!res.ok) throw new Error(data.message || "Failed to load product");
-
-        setProduct(data.data || data); // handle either "data" or direct object
-      } catch (err) {
-        console.error("Error fetching product:", err);
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
+    fetchCategories();
     fetchProduct();
   }, [id]);
 
@@ -63,7 +84,7 @@ const ProductDetail = () => {
     );
   }
 
-  // ✅ Safe destructuring
+  // ✅ Extract data safely
   const {
     name,
     description,
@@ -79,6 +100,9 @@ const ProductDetail = () => {
     images?.[0]?.url ||
     "https://via.placeholder.com/400x300?text=No+Image+Available";
 
+  // ✅ Show category name (from ID)
+  const categoryName = categoryMap[category] || category?.name || "Uncategorized";
+
   const handleAddToCart = () => {
     addToCart({ ...product, quantity });
   };
@@ -89,9 +113,7 @@ const ProductDetail = () => {
       <img src={imageUrl} alt={name} className="detail-image" />
 
       {/* Category */}
-      <span className="detail-category">
-        {category?.name || category || "Uncategorized"}
-      </span>
+      <span className="detail-category">{categoryName}</span>
 
       {/* Product Info */}
       <h2 className="detail-name">{name}</h2>
@@ -112,7 +134,7 @@ const ProductDetail = () => {
         <button onClick={() => setQuantity((q) => q + 1)}>+</button>
       </div>
 
-      {/* Add to Cart Button */}
+      {/* Add to Cart */}
       <button className="add-cart-btn" onClick={handleAddToCart}>
         Add to Cart
       </button>

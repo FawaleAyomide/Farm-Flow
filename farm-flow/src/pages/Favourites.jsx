@@ -1,18 +1,51 @@
 // src/pages/Favourites.jsx
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { RiHeart3Fill } from "react-icons/ri";
-import { useShop } from "../context/ShopContext"; // ✅ make sure to use the same context as Products
+import { useShop } from "../context/ShopContext";
 import BottomNav from "../components/BottomNav";
 import "./Favourites.css";
 
 const Favourites = () => {
   const { favourites, addToCart, toggleFavourite } = useShop();
+  const [categoryMap, setCategoryMap] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  // ✅ Fetch category names to map IDs → names
+  useEffect(() => {
+    const fetchCategories = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(
+          "https://farmarket.up.railway.app/api/categories"
+        );
+        const data = await res.json();
+
+        if (!res.ok)
+          throw new Error(data.message || "Failed to load categories");
+
+        const map = {};
+        (data.data || []).forEach((cat) => {
+          map[cat._id] = cat.name;
+        });
+        setCategoryMap(map);
+      } catch (err) {
+        console.error("Error fetching categories:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   return (
     <div className="favourites-container">
       <h2>My Favourites</h2>
 
-      {!favourites || favourites.length === 0 ? (
+      {loading ? (
+        <p className="loading">Loading categories...</p>
+      ) : !favourites || favourites.length === 0 ? (
         <p>No favourites yet 💔</p>
       ) : (
         <div className="favourites-grid">
@@ -30,8 +63,10 @@ const Favourites = () => {
               {/* ✅ Category + Favorite button */}
               <div className="cat-wrapper">
                 <span className="product-category">
-                  {/* {p.category?.name || p.category || "Uncategorized"} */}
-                  Category
+                  {categoryMap[p.category] ||
+                    p.category?.name ||
+                    p.category ||
+                    "Uncategorized"}
                 </span>
                 <div
                   className="fav-btn active"

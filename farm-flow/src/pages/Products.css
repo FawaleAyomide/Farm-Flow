@@ -305,3 +305,6 @@
   top: -5px;
   right: -5px;
 }
+.fav-btn{
+  cursor: pointer;
+}

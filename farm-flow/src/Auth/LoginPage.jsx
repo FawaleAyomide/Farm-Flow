@@ -42,7 +42,7 @@ const LoginPage = () => {
 
     try {
       setLoading(true);
-      await login(form.email.trim(), form.password); // ✅ call AuthProvider login
+      await login(form.email.trim(), form.password); // call AuthProvider login
     } catch (err) {
       console.error("Login error:", err);
       setErrors({ form: err.message || "Login failed" });

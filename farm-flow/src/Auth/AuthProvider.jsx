@@ -27,11 +27,14 @@ export const AuthProvider = ({ children }) => {
   const login = async (email, password) => {
     setLoading(true);
     try {
-      const res = await fetch("https://farmarket.up.railway.app/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      const res = await fetch(
+        "https://farmarket-0hkp.onrender.com/api/auth/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       const data = await res.json();
       console.log("🔑 Login response:", data);
@@ -64,11 +67,14 @@ export const AuthProvider = ({ children }) => {
   const signup = async (formData) => {
     setLoading(true);
     try {
-      const res = await fetch("https://farmarket.up.railway.app/api/auth/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const res = await fetch(
+        "https://farmarket-0hkp.onrender.com/api/auth/signup",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        }
+      );
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Signup failed");
@@ -82,9 +88,12 @@ export const AuthProvider = ({ children }) => {
   // 🔹 FETCH PROFILE
   const fetchProfile = async () => {
     try {
-      const res = await fetch("https://farmarket.up.railway.app/api/auth/profile", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await fetch(
+        "https://farmarket-0hkp.onrender.com/api/auth/profile",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       if (!res.ok) throw new Error("Failed to fetch user profile");
 
@@ -94,6 +103,96 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error("Auth error:", error);
       logout(); // clear session if token invalid
+    }
+  };
+
+  // 🔹 Upload Profile Image
+  // Inside AuthProvider
+  // ✅ Upload Profile Image (Auth users only)
+  // Inside AuthProvider.jsx
+
+  const uploadProfileImage = async (file) => {
+    if (!file) throw new Error("No file selected");
+
+    const token = localStorage.getItem("token"); // ✅ Get auth token
+    if (!token) throw new Error("Authentication required");
+
+    const formData = new FormData();
+    formData.append("profileImage", file);
+
+    try {
+      const res = await fetch(
+        "https://farmarket-0hkp.onrender.com/api/users/me/profile/image",
+        {
+          method: "PATCH", // ✅ Correct method
+          headers: {
+            Authorization: `Bearer ${token}`, // ✅ Auth header
+          },
+          body: formData,
+        }
+      );
+
+      const data = await res.json();
+      console.log("🟢 Upload response:", data);
+
+      if (!res.ok) {
+        throw new Error(data?.message || "Failed to upload image");
+      }
+
+      // ✅ Ensure backend returns updated user
+      if (data?.user) {
+        // Update context
+        setUser(data.user);
+
+        // Persist in localStorage
+        localStorage.setItem("user", JSON.stringify(data.user));
+
+        // Return new image URL for immediate preview update
+        return data.user.profileImage?.url;
+      }
+
+      throw new Error("Unexpected response from server");
+    } catch (err) {
+      console.error("Upload error:", err);
+      throw err;
+    }
+  };
+
+  // 🔹 Update Profile (first name, last name, etc.)
+  const updateProfile = async (payload) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await fetch(
+        "https://farmarket-0hkp.onrender.com/api/users/me/profile/",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      const text = await res.text();
+      console.log("Raw update response:", text);
+
+      if (!res.ok) {
+        throw new Error(`Server error ${res.status}: ${text.slice(0, 150)}`);
+      }
+
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch {
+        throw new Error(`Invalid JSON: ${text.slice(0, 150)}`);
+      }
+
+      return data?.data || data;
+    } catch (err) {
+      console.error("Update failed:", err);
+      throw err;
     }
   };
 
@@ -113,11 +212,14 @@ export const AuthProvider = ({ children }) => {
     login,
     signup,
     logout,
+    uploadProfileImage,
+    updateProfile,
     isAuthenticated: !!token,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
+
 
 // ✅ Hook to use Auth anywhere
 export const useAuth = () => useContext(AuthContext);

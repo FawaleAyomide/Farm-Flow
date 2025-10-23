@@ -11,13 +11,13 @@ const Favourites = () => {
   const [categoryMap, setCategoryMap] = useState({});
   const [loading, setLoading] = useState(false);
 
-  // ✅ Fetch category names to map IDs → names
+  // Fetch category names to map IDs → names
   useEffect(() => {
     const fetchCategories = async () => {
       setLoading(true);
       try {
         const res = await fetch(
-          "https://farmarket.up.railway.app/api/categories"
+          "https://farmarket-0hkp.onrender.com/api/categories/"
         );
         const data = await res.json();
 
@@ -51,7 +51,7 @@ const Favourites = () => {
         <div className="favourites-grid">
           {favourites.map((p) => (
             <div key={p.id} className="product-card">
-              {/* ✅ Product Image */}
+              {/* Product Image */}
               <div className="image-wrapper">
                 <img
                   src={p.images?.[0]?.url || "https://via.placeholder.com/150"}
@@ -60,7 +60,7 @@ const Favourites = () => {
                 />
               </div>
 
-              {/* ✅ Category + Favorite button */}
+              {/* Category + Favorite button */}
               <div className="cat-wrapper">
                 <span className="product-category">
                   {categoryMap[p.category] ||
@@ -77,7 +77,7 @@ const Favourites = () => {
                 </div>
               </div>
 
-              {/* ✅ Product name + price */}
+              {/* Product name + price */}
               <div className="pn-wrapper">
                 <h3 className="product-name">{p.name}</h3>
                 <p className="product-price">
@@ -85,7 +85,7 @@ const Favourites = () => {
                 </p>
               </div>
 
-              {/* ✅ Add to cart + link to product details */}
+              {/* Add to cart + link to product details */}
               <button className="add-to-cart" onClick={() => addToCart(p)}>
                 Add to Cart
               </button>
@@ -98,7 +98,7 @@ const Favourites = () => {
         </div>
       )}
 
-      {/* ✅ Bottom navigation bar */}
+      {/* Bottom navigation bar */}
       <div className="bottom-nav-wrapper">
         <BottomNav />
       </div>

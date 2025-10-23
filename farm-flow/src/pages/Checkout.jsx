@@ -17,10 +17,10 @@ const Checkout = () => {
   const [categoryMap, setCategoryMap] = useState({});
   const [loading, setLoading] = useState(false);
 
-  // ✅ Fetch categories to map IDs → names
+  // Fetch categories to map IDs → names
   const fetchCategories = async () => {
     try {
-      const res = await fetch("https://farmarket.up.railway.app/api/categories");
+      const res = await fetch("https://farmarket-0hkp.onrender.com/api/categories/");
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Failed to load categories");
 
@@ -34,13 +34,13 @@ const Checkout = () => {
     }
   };
 
-  // ✅ Fetch products to update cart item info (image, price, etc.)
+  // Fetch products to update cart item info (image, price, etc.)
   const fetchProducts = async () => {
     if (cart.length === 0) return;
     setLoading(true);
 
     try {
-      const response = await fetch("https://farmarket.up.railway.app/api/products");
+      const response = await fetch("https://farmarket-0hkp.onrender.com/api/products");
       const data = await response.json();
 
       if (response.ok && data.data) {
@@ -105,7 +105,7 @@ const Checkout = () => {
     };
 
     try {
-      const res = await fetch("https://farmarket.up.railway.app/api/orders", {
+      const res = await fetch("https://farmarket-0hkp.onrender.com/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(orderPayload),

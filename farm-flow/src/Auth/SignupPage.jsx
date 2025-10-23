@@ -93,13 +93,13 @@ function SignupPage() {
     e.preventDefault();
     if (!validate()) return;
 
-    console.log("Form data before sending:", form); // ✅ debug log
+    console.log("Form data before sending:", form); // debug log
 
     try {
       setLoading(true);
 
       const res = await fetch(
-        "https://farmarket.up.railway.app/api/auth/signup",
+        "https://farmarket-0hkp.onrender.com/api/auth/signup",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -108,7 +108,7 @@ function SignupPage() {
             lastName: form.lastName.trim(),
             email: form.email.trim(),
             password: form.password,
-            confirmPassword: form.confirmPassword, // ✅ ensure this is included
+            confirmPassword: form.confirmPassword, // ensure this is included
           }),
         }
       );

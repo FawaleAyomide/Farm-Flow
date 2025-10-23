@@ -14,10 +14,10 @@ const ProductDetail = () => {
   const [error, setError] = useState(null);
   const [categoryMap, setCategoryMap] = useState({});
 
-  // ✅ Fetch all categories once to map category IDs → names
+  // Fetch all categories once to map category IDs → names
   const fetchCategories = async () => {
     try {
-      const res = await fetch(`https://farmarket.up.railway.app/api/categories`);
+      const res = await fetch(`https://farmarket-0hkp.onrender.com/api/categories/`);
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.message || "Failed to load categories");
@@ -33,11 +33,11 @@ const ProductDetail = () => {
     }
   };
 
-  // ✅ Fetch single product
+  // Fetch single product
   const fetchProduct = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`https://farmarket.up.railway.app/api/products/${id}`);
+      const res = await fetch(`https://farmarket-0hkp.onrender.com/api/categories/${id}`);
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.message || "Failed to load product");
@@ -56,7 +56,7 @@ const ProductDetail = () => {
     fetchProduct();
   }, [id]);
 
-  // ✅ Loading / Error states
+  // Loading / Error states
   if (loading) {
     return <p className="loading-text">Loading product details...</p>;
   }
@@ -84,7 +84,7 @@ const ProductDetail = () => {
     );
   }
 
-  // ✅ Extract data safely
+  // Extract data safely
   const {
     name,
     description,
@@ -100,7 +100,7 @@ const ProductDetail = () => {
     images?.[0]?.url ||
     "https://via.placeholder.com/400x300?text=No+Image+Available";
 
-  // ✅ Show category name (from ID)
+  // Show category name (from ID)
   const categoryName = categoryMap[category] || category?.name || "Uncategorized";
 
   const handleAddToCart = () => {

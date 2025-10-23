@@ -37,7 +37,7 @@ const ProductDetail = () => {
   const fetchProduct = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`https://farmarket-0hkp.onrender.com/api/categories/${id}`);
+      const res = await fetch(`https://farmarket-0hkp.onrender.com/api/products/${id}`);
       const data = await res.json();
 
       if (!res.ok) throw new Error(data.message || "Failed to load product");
